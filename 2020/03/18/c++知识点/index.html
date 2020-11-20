@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="c++,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="stl优先队列的排序优先队列存储基本类型存储基本类型很简单，因为内置类型的优先级很好判断，所以在使用最大堆和最小堆的时候只需要使用greater和less就行了。其实greater和less很好分辨，greater是越来越大，那在堆顶的自然就是最小的，然后最小的优先级高，自然是最小堆，less同理。 比如最小堆存储int 123456789101112131415161718192021#incl">
+<meta name="keywords" content="c++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c++知识点">
+<meta property="og:url" content="https://dddblog.fun/2020/03/18/c++知识点/index.html">
+<meta property="og:site_name" content="油尖旺金毛玲">
+<meta property="og:description" content="stl优先队列的排序优先队列存储基本类型存储基本类型很简单，因为内置类型的优先级很好判断，所以在使用最大堆和最小堆的时候只需要使用greater和less就行了。其实greater和less很好分辨，greater是越来越大，那在堆顶的自然就是最小的，然后最小的优先级高，自然是最小堆，less同理。 比如最小堆存储int 123456789101112131415161718192021#incl">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-09-28T09:10:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="c++知识点">
+<meta name="twitter:description" content="stl优先队列的排序优先队列存储基本类型存储基本类型很简单，因为内置类型的优先级很好判断，所以在使用最大堆和最小堆的时候只需要使用greater和less就行了。其实greater和less很好分辨，greater是越来越大，那在堆顶的自然就是最小的，然后最小的优先级高，自然是最小堆，less同理。 比如最小堆存储int 123456789101112131415161718192021#incl">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://dddblog.fun/2020/03/18/c++知识点/">
+
+
+
+
+
+  <title>c++知识点 | 油尖旺金毛玲</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+  <script src="/live2d-widget/autoload.js"></script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">油尖旺金毛玲</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dddblog.fun/2020/03/18/c++知识点/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="why0609why">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/image/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="油尖旺金毛玲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">c++知识点</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-18T09:49:30+08:00">
+                2020-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/c/" itemprop="url" rel="index">
+                    <span itemprop="name">c++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="stl"><a href="#stl" class="headerlink" title="stl"></a>stl</h1><h2 id="优先队列的排序"><a href="#优先队列的排序" class="headerlink" title="优先队列的排序"></a>优先队列的排序</h2><h3 id="优先队列存储基本类型"><a href="#优先队列存储基本类型" class="headerlink" title="优先队列存储基本类型"></a>优先队列存储基本类型</h3><p>存储基本类型很简单，因为内置类型的优先级很好判断，所以在使用最大堆和最小堆的时候只需要使用greater<typename>和less<typename>就行了。<br>其实greater和less很好分辨，greater是越来越大，那在堆顶的自然就是最小的，然后最小的优先级高，自然是最小堆，less同理。</typename></typename></p>
+<p>比如最小堆存储int</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//int是优先队列里面存储元素的类型</span></span><br><span class="line">    <span class="comment">//vector是优先队列的底部实现</span></span><br><span class="line">    <span class="comment">//greater最小堆</span></span><br><span class="line">    priority_queue&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;, greater&lt;<span class="keyword">int</span>&gt; &gt; q;</span><br><span class="line">    q.push(<span class="number">-1</span>);</span><br><span class="line">    q.push(<span class="number">5</span>);</span><br><span class="line">    q.push(<span class="number">10</span>);</span><br><span class="line">    q.push(<span class="number">22</span>);</span><br><span class="line">    q.push(<span class="number">20</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!q.empty()) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; q.top() &lt;&lt; <span class="built_in">endl</span>;    <span class="comment">//-1,5,10,20,22</span></span><br><span class="line">        q.pop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最大堆存储int</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//int是优先队列里面存储元素的类型</span></span><br><span class="line">    <span class="comment">//vector是优先队列的底部实现</span></span><br><span class="line">    <span class="comment">//greater最小堆</span></span><br><span class="line">    priority_queue&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;, less&lt;<span class="keyword">int</span>&gt; &gt; q;</span><br><span class="line">    q.push(<span class="number">-1</span>);</span><br><span class="line">    q.push(<span class="number">5</span>);</span><br><span class="line">    q.push(<span class="number">10</span>);</span><br><span class="line">    q.push(<span class="number">22</span>);</span><br><span class="line">    q.push(<span class="number">20</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!q.empty()) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; q.top() &lt;&lt; <span class="built_in">endl</span>;    <span class="comment">//22,20,10,5,-1</span></span><br><span class="line">        q.pop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后优先队列存储string之类的，也是和上面同理，string比较的是字典序</p>
+<h3 id="优先队列存储自定义类型"><a href="#优先队列存储自定义类型" class="headerlink" title="优先队列存储自定义类型"></a>优先队列存储自定义类型</h3><p>因为自定义类型需要自定义比较规则，所以需要自定义比较器。<br>c++默认优先队列的最大堆。因为java是自定义比较器返回int值，直接就代表优先级，但是c++返回的是bool，所以true或者false可以看成父节点和子节点是否交换。就是一个siftUp的过程，每次看父节点和子节点比较的返回值来代表父节点和子节点是否交换。</p>
+<p>比如这里年龄从小到大排序，年龄相同就按照字典序排序，那么这里每次看的是如果父节点的年龄属性大那就和子节点交换，那么如此不断交换，那么堆顶的一定是年龄最小的。其他的类型定义自定义比较器的时候都可以按照这个道理。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Person</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="built_in">string</span> name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//类似于class中的构造函数快速赋值</span></span><br><span class="line">    Person(<span class="keyword">int</span> age, <span class="built_in">string</span> name) : age(age), name(name) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//比如说这里就想让优先队列排序是：年龄最小的在堆顶，年龄相同的看名字的字典序的大小。</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmp</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> Person &amp;p1, <span class="keyword">const</span> Person &amp;p2)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//当这个条件发生的时候，在siftUp的过程中父节点和子节点交换</span></span><br><span class="line">        <span class="keyword">return</span> p1.age &gt; p2.age || (p1.age == p2.age &amp;&amp; p1.name &gt; p2.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    priority_queue&lt;Person, <span class="built_in">vector</span>&lt;Person&gt;, cmp&gt; q;</span><br><span class="line">    q.push(Person(<span class="number">10</span>, <span class="string">"zs"</span>));</span><br><span class="line">    q.push(Person(<span class="number">18</span>, <span class="string">"lisi"</span>));</span><br><span class="line">    q.push(Person(<span class="number">13</span>, <span class="string">"ww"</span>));</span><br><span class="line">    q.push(Person(<span class="number">10</span>, <span class="string">"zl"</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!q.empty()) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; q.top().name &lt;&lt; <span class="string">":"</span> &lt;&lt; q.top().age &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        q.pop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//输出结果：可以发现，年龄大的优先级高，年龄小的优先级的，因为是最小堆所以</span></span><br><span class="line">    <span class="comment">//zl:10</span></span><br><span class="line">    <span class="comment">//zs:10</span></span><br><span class="line">    <span class="comment">//ww:13</span></span><br><span class="line">    <span class="comment">//lisi:18</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="优先队列总结"><a href="#优先队列总结" class="headerlink" title="优先队列总结"></a>优先队列总结</h2><ol>
+<li>在sort中greater和less就直接代表的是从大到小和从小到大</li>
+<li>在优先队列中，greater和less分别代表最小堆和最大堆。原因很好理解，因为在自定义比较器的方法里面返回的是bool，而且这个bool的作用是，如果bool是true，那就说明shiftUp的过程中父节点和子节点是要交换的，又因为greater用于基本类型而且greater内部是x &gt; y，那就说明在shiftUp的过程中如果父节点比子节点大，那就交换父子节点，如此，最终堆顶一定是最小的，这也就解释了greater是最小堆的原因。</li>
+<li>如何书写自定义比较器，一定要明确一个点，自定义比较器的返回值是在shiftUp的过程中如果父节点比子节点大，那就交换父子节点的参考，如果返回值是true，那就交换。如此就能写出优先级。此处和java不一样，java是直接根据堆是最小堆(java的PriorityQueue底层是最小堆)，然后直接按照对应的条件返回优先级(返回值1是优先级高，-1是优先级低)，和c++的返回bool来决定父子节点是否交换是不同的。</li>
+</ol>
+<h2 id="sort进行排序"><a href="#sort进行排序" class="headerlink" title="sort进行排序"></a>sort进行排序</h2><h3 id="sort对数组排序"><a href="#sort对数组排序" class="headerlink" title="sort对数组排序"></a>sort对数组排序</h3><p>对数组排序无非就是从大到小，或者从小到大排序</p>
+<h4 id="从小到大排序"><a href="#从小到大排序" class="headerlink" title="从小到大排序"></a>从小到大排序</h4><p>sort默认是从小到大排序的，可以直接调用sort</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">5</span>];</span><br><span class="line">    a[<span class="number">0</span>] = <span class="number">10</span>;</span><br><span class="line">    a[<span class="number">1</span>] = <span class="number">20</span>;</span><br><span class="line">    a[<span class="number">2</span>] = <span class="number">5</span>;</span><br><span class="line">    a[<span class="number">3</span>] = <span class="number">-1</span>;</span><br><span class="line">    a[<span class="number">4</span>] = <span class="number">22</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//注意这里要从数组的开头到数组的末尾</span></span><br><span class="line">    sort(a, a + <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i:a) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//-1,5,10,20,22</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以模板里的less函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">5</span>];</span><br><span class="line">    a[<span class="number">0</span>] = <span class="number">10</span>;</span><br><span class="line">    a[<span class="number">1</span>] = <span class="number">20</span>;</span><br><span class="line">    a[<span class="number">2</span>] = <span class="number">5</span>;</span><br><span class="line">    a[<span class="number">3</span>] = <span class="number">-1</span>;</span><br><span class="line">    a[<span class="number">4</span>] = <span class="number">22</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//这个和上面那个是完全一样的，因为sort默认第三个参数就是less&lt;int&gt;()</span></span><br><span class="line">    sort(a, a + <span class="number">5</span>, less&lt;<span class="keyword">int</span>&gt;());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i:a) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//-1,5,10,20,22</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以自定义比较函数cmp</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x &lt; y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">5</span>];</span><br><span class="line">    a[<span class="number">0</span>] = <span class="number">10</span>;</span><br><span class="line">    a[<span class="number">1</span>] = <span class="number">20</span>;</span><br><span class="line">    a[<span class="number">2</span>] = <span class="number">5</span>;</span><br><span class="line">    a[<span class="number">3</span>] = <span class="number">-1</span>;</span><br><span class="line">    a[<span class="number">4</span>] = <span class="number">22</span>;</span><br><span class="line"></span><br><span class="line">    sort(a, a + <span class="number">5</span>, cmp);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i:a) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//-1,5,10,20,22</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以自定义一个比较器</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//bool cmp(int x, int y) &#123;</span></span><br><span class="line"><span class="comment">//    return x &lt; y;</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br><span class="line"><span class="comment">//能看到比较器和比较函数很像</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmp</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> &amp;a, <span class="keyword">const</span> <span class="keyword">int</span> &amp;b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a &lt; b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">5</span>];</span><br><span class="line">    a[<span class="number">0</span>] = <span class="number">10</span>;</span><br><span class="line">    a[<span class="number">1</span>] = <span class="number">20</span>;</span><br><span class="line">    a[<span class="number">2</span>] = <span class="number">5</span>;</span><br><span class="line">    a[<span class="number">3</span>] = <span class="number">-1</span>;</span><br><span class="line">    a[<span class="number">4</span>] = <span class="number">22</span>;</span><br><span class="line"></span><br><span class="line">    sort(a, a + <span class="number">5</span>, cmp());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i:a) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//-1,5,10,20,22</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="从大到小排序"><a href="#从大到小排序" class="headerlink" title="从大到小排序"></a>从大到小排序</h4><p>因为sort默认是从小到大的，所以要从大到小排序可以选择greater<int></int></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x &lt; y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">5</span>];</span><br><span class="line">    a[<span class="number">0</span>] = <span class="number">10</span>;</span><br><span class="line">    a[<span class="number">1</span>] = <span class="number">20</span>;</span><br><span class="line">    a[<span class="number">2</span>] = <span class="number">5</span>;</span><br><span class="line">    a[<span class="number">3</span>] = <span class="number">-1</span>;</span><br><span class="line">    a[<span class="number">4</span>] = <span class="number">22</span>;</span><br><span class="line"></span><br><span class="line">    sort(a, a + <span class="number">5</span>, greater&lt;<span class="keyword">int</span>&gt;());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i:a) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//22,20,10,5,-1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者使用自定义的比较函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x &gt; y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">5</span>];</span><br><span class="line">    a[<span class="number">0</span>] = <span class="number">10</span>;</span><br><span class="line">    a[<span class="number">1</span>] = <span class="number">20</span>;</span><br><span class="line">    a[<span class="number">2</span>] = <span class="number">5</span>;</span><br><span class="line">    a[<span class="number">3</span>] = <span class="number">-1</span>;</span><br><span class="line">    a[<span class="number">4</span>] = <span class="number">22</span>;</span><br><span class="line"></span><br><span class="line">    sort(a, a + <span class="number">5</span>, cmp);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i:a) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//22,20,10,5,-1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者使用自定义比较器</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmp</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> &amp;a, <span class="keyword">const</span> <span class="keyword">int</span> &amp;b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a &gt; b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">5</span>];</span><br><span class="line">    a[<span class="number">0</span>] = <span class="number">10</span>;</span><br><span class="line">    a[<span class="number">1</span>] = <span class="number">20</span>;</span><br><span class="line">    a[<span class="number">2</span>] = <span class="number">5</span>;</span><br><span class="line">    a[<span class="number">3</span>] = <span class="number">-1</span>;</span><br><span class="line">    a[<span class="number">4</span>] = <span class="number">22</span>;</span><br><span class="line"></span><br><span class="line">    sort(a, a + <span class="number">5</span>, cmp());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i:a) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//22,20,10,5,-1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="对vector排序"><a href="#对vector排序" class="headerlink" title="对vector排序"></a>对vector排序</h3><p>和数组一样无非也是从大到小或者从小到大</p>
+<h4 id="从小到大排序-1"><a href="#从小到大排序-1" class="headerlink" title="从小到大排序"></a>从小到大排序</h4><p>和排序数组一样，可以直接不用第三个参数来排序</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line">    v.push_back(<span class="number">22</span>);</span><br><span class="line">    v.push_back(<span class="number">10</span>);</span><br><span class="line">    v.push_back(<span class="number">20</span>);</span><br><span class="line">    v.push_back(<span class="number">-1</span>);</span><br><span class="line">    v.push_back(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    sort(v.begin(), v.end());</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i:v) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//-1,5,10,20,22</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以直接用less<int>()作为第三个参数</int></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line">    v.push_back(<span class="number">22</span>);</span><br><span class="line">    v.push_back(<span class="number">10</span>);</span><br><span class="line">    v.push_back(<span class="number">20</span>);</span><br><span class="line">    v.push_back(<span class="number">-1</span>);</span><br><span class="line">    v.push_back(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    sort(v.begin(), v.end(), less&lt;<span class="keyword">int</span>&gt;());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i:v) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//-1,5,10,20,22</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以自定义比较函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x &lt; y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line">    v.push_back(<span class="number">22</span>);</span><br><span class="line">    v.push_back(<span class="number">10</span>);</span><br><span class="line">    v.push_back(<span class="number">20</span>);</span><br><span class="line">    v.push_back(<span class="number">-1</span>);</span><br><span class="line">    v.push_back(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    sort(v.begin(), v.end(), cmp);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i:v) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//-1,5,10,20,22</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以自定义比较器</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmp</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> &amp;a, <span class="keyword">const</span> <span class="keyword">int</span> &amp;b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a &lt; b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line">    v.push_back(<span class="number">22</span>);</span><br><span class="line">    v.push_back(<span class="number">10</span>);</span><br><span class="line">    v.push_back(<span class="number">20</span>);</span><br><span class="line">    v.push_back(<span class="number">-1</span>);</span><br><span class="line">    v.push_back(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    sort(v.begin(), v.end(), cmp());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i:v) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//-1,5,10,20,22</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="从大到小排序-1"><a href="#从大到小排序-1" class="headerlink" title="从大到小排序"></a>从大到小排序</h4><p>使用sort进行从大到小排序需要第三个参数<br>使用greater</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line">    v.push_back(<span class="number">22</span>);</span><br><span class="line">    v.push_back(<span class="number">10</span>);</span><br><span class="line">    v.push_back(<span class="number">20</span>);</span><br><span class="line">    v.push_back(<span class="number">-1</span>);</span><br><span class="line">    v.push_back(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    sort(v.begin(), v.end(), greater&lt;<span class="keyword">int</span>&gt;());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i:v) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//22,20,10,5,-1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用自定义比较函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x &gt; y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line">    v.push_back(<span class="number">22</span>);</span><br><span class="line">    v.push_back(<span class="number">10</span>);</span><br><span class="line">    v.push_back(<span class="number">20</span>);</span><br><span class="line">    v.push_back(<span class="number">-1</span>);</span><br><span class="line">    v.push_back(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    sort(v.begin(), v.end(), cmp);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i:v) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//22,20,10,5,-1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用自定义比较器</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmp</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> &amp;a, <span class="keyword">const</span> <span class="keyword">int</span> &amp;b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a &gt; b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line">    v.push_back(<span class="number">22</span>);</span><br><span class="line">    v.push_back(<span class="number">10</span>);</span><br><span class="line">    v.push_back(<span class="number">20</span>);</span><br><span class="line">    v.push_back(<span class="number">-1</span>);</span><br><span class="line">    v.push_back(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    sort(v.begin(), v.end(), cmp());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i:v) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用vector对自定义类型存储"><a href="#使用vector对自定义类型存储" class="headerlink" title="使用vector对自定义类型存储"></a>使用vector对自定义类型存储</h4><p>因为自定义存储类型，比如人这个类、或者车，那就要定义自定义类型对应的比较规则。<br>自定义比较器来比较</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//自定义人这个类</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Person</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="built_in">string</span> name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//类似于class中的构造函数快速赋值</span></span><br><span class="line">    Person(<span class="keyword">int</span> age, <span class="built_in">string</span> name) : age(age), name(name) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//自定义人的这个比较器，年龄从小到大，年龄相同的话按照名字的字典序从小到大</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmp</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> Person &amp;p1, <span class="keyword">const</span> Person &amp;p2)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//这其实是自定义的less</span></span><br><span class="line">        <span class="keyword">return</span> p1.age &lt; p2.age || (p1.age == p2.age &amp;&amp; p1.name &lt; p2.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;Person&gt; v;</span><br><span class="line">    v.push_back(Person(<span class="number">10</span>, <span class="string">"zs"</span>));</span><br><span class="line">    v.push_back(Person(<span class="number">18</span>, <span class="string">"lisi"</span>));</span><br><span class="line">    v.push_back(Person(<span class="number">13</span>, <span class="string">"ww"</span>));</span><br><span class="line">    v.push_back(Person(<span class="number">10</span>, <span class="string">"zl"</span>));</span><br><span class="line"></span><br><span class="line">    sort(v.begin(), v.end(), cmp());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (Person p : v) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; p.name &lt;&lt; <span class="string">"---"</span> &lt;&lt; p.age &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//输出结果：能发现是按照年龄从小到大，字典序从小到大排序的。</span></span><br><span class="line">    <span class="comment">//zl---10</span></span><br><span class="line">    <span class="comment">//zs---10</span></span><br><span class="line">    <span class="comment">//ww---13</span></span><br><span class="line">    <span class="comment">//lisi---18</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同样也是可以使用自定义函数来的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Person</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="built_in">string</span> name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//类似于class中的构造函数快速赋值</span></span><br><span class="line">    Person(<span class="keyword">int</span> age, <span class="built_in">string</span> name) : age(age), name(name) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//自定义函数的写法和之前相同，逻辑和自定义比较器相同</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(Person p1, Person p2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> p1.age &lt; p2.age || (p1.age == p2.age &amp;&amp; p1.name &lt; p2.name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;Person&gt; v;</span><br><span class="line">    v.push_back(Person(<span class="number">10</span>, <span class="string">"zs"</span>));</span><br><span class="line">    v.push_back(Person(<span class="number">18</span>, <span class="string">"lisi"</span>));</span><br><span class="line">    v.push_back(Person(<span class="number">13</span>, <span class="string">"ww"</span>));</span><br><span class="line">    v.push_back(Person(<span class="number">10</span>, <span class="string">"zl"</span>));</span><br><span class="line"></span><br><span class="line">    sort(v.begin(), v.end(), cmp);</span><br><span class="line">    <span class="keyword">for</span> (Person p : v) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; p.name &lt;&lt; <span class="string">"---"</span> &lt;&lt; p.age &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用sort的总结"><a href="#使用sort的总结" class="headerlink" title="使用sort的总结"></a>使用sort的总结</h3><ol>
+<li><p>sort默认是less的，也就是从小到大的，这里的less和优先队列的less不同，后面会讲。</p>
+</li>
+<li><p>sort里使用的less是从小到大，greater是从大到小<br>可以看一下less和greater的源码<br>less的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt; <span class="title">struct</span> <span class="title">greater</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span> <span class="params">(<span class="keyword">const</span> T&amp; x, <span class="keyword">const</span> T&amp; y)</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> x&gt;y;&#125;</span><br><span class="line">    <span class="keyword">typedef</span> T first_argument_type;</span><br><span class="line">    <span class="keyword">typedef</span> T second_argument_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">bool</span> result_type;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p> greater的</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt; <span class="title">struct</span> <span class="title">less</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span> <span class="params">(<span class="keyword">const</span> T&amp; x, <span class="keyword">const</span> T&amp; y)</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> x&lt;y;&#125;</span><br><span class="line">    <span class="keyword">typedef</span> T first_argument_type;</span><br><span class="line">    <span class="keyword">typedef</span> T second_argument_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">bool</span> result_type;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p> 可以看到不管是less还是greater，里面的结构和自定义的比较器很像</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmp</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> &amp;a, <span class="keyword">const</span> <span class="keyword">int</span> &amp;b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a &gt; b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p> 所以某种意义上来说greater和less的使用完全可以被自定义比较器代替。</p>
+</li>
+<li><p>自定义比较器和自定义比较函数的使用：看心情，注意用自定义比较器的时候参数是cmp()，而自定义比较函数的时候是cmp。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//比较器</span></span><br><span class="line">sort(v.begin(), v.end(), cmp());</span><br><span class="line"><span class="comment">//greater</span></span><br><span class="line">sort(a, a + <span class="number">5</span>, greater&lt;<span class="keyword">int</span>&gt;());</span><br><span class="line"><span class="comment">//less</span></span><br><span class="line">sort(a, a + <span class="number">5</span>, less&lt;<span class="keyword">int</span>&gt;());</span><br><span class="line"><span class="comment">//比较函数</span></span><br><span class="line">sort(v.begin(), v.end(), cmp);</span><br></pre></td></tr></table></figure>
+
+<p> 能看到因为greater和less都是比较器的关系，在参数那里都有括号，比较函数是没有的</p>
+</li>
+<li><p>在使用数组或者vector存储基本类型的时候，用greater或者less比较方便。存储自定义类型的时候，用自定义比较器或者自定义函数比较方便。</p>
+</li>
+<li><p>最后说一遍，在自定义比较器或者自定义比较函数里，你希望从小到大排序的话，那就写x &lt; y，这也是less，反之就是x &gt; y，这是greater。这里的less和greater是具体自定义比较器或者自定义比较函数里面的小于号和大于号，和堆里面的不一样。</p>
+</li>
+</ol>
+<h2 id="对set的排序"><a href="#对set的排序" class="headerlink" title="对set的排序"></a>对set的排序</h2><h3 id="set存储基本类型"><a href="#set存储基本类型" class="headerlink" title="set存储基本类型"></a>set存储基本类型</h3><h4 id="从小到大"><a href="#从小到大" class="headerlink" title="从小到大"></a>从小到大</h4><p>因为set是有默认排序的，而且还是less的，而又因为在存储基本类型的时候，自定义类型数据在set中默认是less，从小到大存储的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line">    s.insert(<span class="number">5</span>);</span><br><span class="line">    s.insert(<span class="number">-1</span>);</span><br><span class="line">    s.insert(<span class="number">10</span>);</span><br><span class="line">    s.insert(<span class="number">20</span>);</span><br><span class="line">    s.insert(<span class="number">22</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i: s) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//-1,5,10,20,22</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="从大到小"><a href="#从大到小" class="headerlink" title="从大到小"></a>从大到小</h4><p>通过自定义比较器来实现从大到小</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmp</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> &amp;x, <span class="keyword">const</span> <span class="keyword">int</span> &amp;y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x &gt; y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//注意这里传入了比较器</span></span><br><span class="line">    <span class="built_in">set</span>&lt;<span class="keyword">int</span>,cmp&gt; s;</span><br><span class="line">    s.insert(<span class="number">5</span>);</span><br><span class="line">    s.insert(<span class="number">-1</span>);</span><br><span class="line">    s.insert(<span class="number">10</span>);</span><br><span class="line">    s.insert(<span class="number">20</span>);</span><br><span class="line">    s.insert(<span class="number">22</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i: s) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//22,20,10,5,-1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="set存储自定义类型"><a href="#set存储自定义类型" class="headerlink" title="set存储自定义类型"></a>set存储自定义类型</h3><p>自定义类型就不再局限于从大到小或者从小到大，需要自定义比较规则<br>而且在存储自定义类型的时候一定要自定义比较器，不然set不知道怎么排序你的类型，就会报错</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Person</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="built_in">string</span> name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//类似于class中的构造函数快速赋值</span></span><br><span class="line">    Person(<span class="keyword">int</span> age, <span class="built_in">string</span> name) : age(age), name(name) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//自定义人的这个比较器，年龄从小到大，年龄相同的话按照名字的字典序从小到大</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmp</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> Person &amp;p1, <span class="keyword">const</span> Person &amp;p2)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//这其实是自定义的less</span></span><br><span class="line">        <span class="keyword">return</span> p1.age &lt; p2.age || (p1.age == p2.age &amp;&amp; p1.name &lt; p2.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">set</span>&lt;Person, cmp&gt; s;</span><br><span class="line">    s.insert(Person(<span class="number">10</span>, <span class="string">"zs"</span>));</span><br><span class="line">    s.insert(Person(<span class="number">18</span>, <span class="string">"lisi"</span>));</span><br><span class="line">    s.insert(Person(<span class="number">13</span>, <span class="string">"ww"</span>));</span><br><span class="line">    s.insert(Person(<span class="number">10</span>, <span class="string">"zl"</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (Person p: s) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; p.name &lt;&lt; <span class="string">"---"</span> &lt;&lt; p.age &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//输出结果：能发现是按照年龄从小到大，字典序从小到大排序的。</span></span><br><span class="line">    <span class="comment">//zl---10</span></span><br><span class="line">    <span class="comment">//zs---10</span></span><br><span class="line">    <span class="comment">//ww---13</span></span><br><span class="line">    <span class="comment">//lisi---18</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="对map的排序"><a href="#对map的排序" class="headerlink" title="对map的排序"></a>对map的排序</h2><h3 id="map存储基本类型"><a href="#map存储基本类型" class="headerlink" title="map存储基本类型"></a>map存储基本类型</h3><h4 id="键从小到大"><a href="#键从小到大" class="headerlink" title="键从小到大"></a>键从小到大</h4><p>map的键默认是有序的，而且map中的键是less排布的，也是从小到大的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; m;</span><br><span class="line">    <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;::iterator it;</span><br><span class="line">    m[<span class="number">-1</span>] = <span class="number">0</span>;</span><br><span class="line">    m[<span class="number">5</span>] = <span class="number">0</span>;</span><br><span class="line">    m[<span class="number">10</span>] = <span class="number">0</span>;</span><br><span class="line">    m[<span class="number">22</span>] = <span class="number">0</span>;</span><br><span class="line">    m[<span class="number">20</span>] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (it = m.begin(); it != m.end(); it++) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; it-&gt;first &lt;&lt; <span class="string">":"</span> &lt;&lt; it-&gt;second &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//结果：是按照键值从小到大排序的</span></span><br><span class="line">    <span class="comment">//-1:0</span></span><br><span class="line">    <span class="comment">//5:0</span></span><br><span class="line">    <span class="comment">//10:0</span></span><br><span class="line">    <span class="comment">//20:0</span></span><br><span class="line">    <span class="comment">//22:0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="从大到小-1"><a href="#从大到小-1" class="headerlink" title="从大到小"></a>从大到小</h4><p>那么自然也是可以用自定义比较器来使键值从大到小排序的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//键值从大到小排序</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmp</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> &amp;a, <span class="keyword">const</span> <span class="keyword">int</span> &amp;b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a &gt; b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>, cmp&gt; m;</span><br><span class="line">    <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;::iterator it;</span><br><span class="line">    m[<span class="number">-1</span>] = <span class="number">0</span>;</span><br><span class="line">    m[<span class="number">5</span>] = <span class="number">0</span>;</span><br><span class="line">    m[<span class="number">10</span>] = <span class="number">0</span>;</span><br><span class="line">    m[<span class="number">22</span>] = <span class="number">0</span>;</span><br><span class="line">    m[<span class="number">20</span>] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (it = m.begin(); it != m.end(); it++) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; it-&gt;first &lt;&lt; <span class="string">":"</span> &lt;&lt; it-&gt;second &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//输出结果：可以发现键值从大到小</span></span><br><span class="line">    <span class="comment">//22:0</span></span><br><span class="line">    <span class="comment">//20:0</span></span><br><span class="line">    <span class="comment">//10:0</span></span><br><span class="line">    <span class="comment">//5:0</span></span><br><span class="line">    <span class="comment">//-1:0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="map存储自定义类型"><a href="#map存储自定义类型" class="headerlink" title="map存储自定义类型"></a>map存储自定义类型</h3><p>存储自定义类型需要自定义比较规则，就不再局限于简单的从大到小或者从小到大<br>同set一样，如果不自定义比较器给set，那么容器就不知道你要怎么排序，然后报错，所以map也需要自定义比较器。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Person</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="built_in">string</span> name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//类似于class中的构造函数快速赋值</span></span><br><span class="line">    Person(<span class="keyword">int</span> age, <span class="built_in">string</span> name) : age(age), name(name) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//自定义人的这个比较器，年龄从小到大，年龄相同的话按照名字的字典序从小到大</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmp</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> Person &amp;p1, <span class="keyword">const</span> Person &amp;p2)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//这其实是自定义的less</span></span><br><span class="line">        <span class="keyword">return</span> p1.age &lt; p2.age || (p1.age == p2.age &amp;&amp; p1.name &lt; p2.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">map</span>&lt;Person, <span class="keyword">int</span>, cmp&gt; m;</span><br><span class="line">    <span class="built_in">map</span>&lt;Person, <span class="keyword">int</span>&gt;::iterator it;</span><br><span class="line">    m[Person(<span class="number">10</span>, <span class="string">"zs"</span>)] = <span class="number">0</span>;</span><br><span class="line">    m[Person(<span class="number">18</span>, <span class="string">"lisi"</span>)] = <span class="number">0</span>;</span><br><span class="line">    m[Person(<span class="number">13</span>, <span class="string">"ww"</span>)] = <span class="number">0</span>;</span><br><span class="line">    m[Person(<span class="number">10</span>, <span class="string">"zl"</span>)] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (it = m.begin(); it != m.end(); it++) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; it-&gt;first.name &lt;&lt; <span class="string">":"</span> &lt;&lt; it-&gt;first.age &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//输出结果:可以发现键的排布，就是按照自定义的比较器来的</span></span><br><span class="line"><span class="comment">//  zl:10</span></span><br><span class="line"><span class="comment">//  zs:10</span></span><br><span class="line"><span class="comment">//  ww:13</span></span><br><span class="line"><span class="comment">//  lisi:18</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="leetcode"><a href="#leetcode" class="headerlink" title="leetcode"></a>leetcode</h1><h2 id="sizeof很常用"><a href="#sizeof很常用" class="headerlink" title="sizeof很常用"></a>sizeof很常用</h2><p>c++里面的数组没有直接获取数组长度的方法，所以可以用sizeof来获得数组长度<br>具体操作： 数组长度 = sizeof(数组)/sizeof(数组里面的元素)<br>比如 int a[10];<br>那么sizeof(a)就是40，sizeof(int)是4。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//声明数组</span></span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">3</span>][<span class="number">4</span>];</span><br><span class="line">    <span class="keyword">int</span> t = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(a) / <span class="keyword">sizeof</span>(a[<span class="number">0</span>]); ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="keyword">sizeof</span>(a[<span class="number">0</span>]) / <span class="keyword">sizeof</span>(a[<span class="number">0</span>][<span class="number">0</span>]); ++j) &#123;</span><br><span class="line">            a[i][j] = t++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(a) / <span class="keyword">sizeof</span>(a[<span class="number">0</span>]); ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="keyword">sizeof</span>(a[<span class="number">0</span>]) / <span class="keyword">sizeof</span>(a[<span class="number">0</span>][<span class="number">0</span>]); ++j) &#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;a[i][j]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实sizeof()参数既可以传递变量，也可以传递类型。</p>
+<h2 id="不用迭代器遍历map"><a href="#不用迭代器遍历map" class="headerlink" title="不用迭代器遍历map"></a>不用迭代器遍历map</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; <span class="built_in">map</span>;</span><br><span class="line"><span class="built_in">map</span>[<span class="string">"zd"</span>] = <span class="number">21</span>;</span><br><span class="line"><span class="built_in">map</span>[<span class="string">"why"</span>] = <span class="number">21</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//因为map的元素是键值对，所以可以用pair来使用增强for遍历map</span></span><br><span class="line"><span class="keyword">for</span> (pair&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; p:<span class="built_in">map</span>) &#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; p.first &lt;&lt; <span class="string">"---"</span> &lt;&lt; p.second &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="pair的使用"><a href="#pair的使用" class="headerlink" title="pair的使用"></a>pair的使用</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//直接声明一个pair变量并且赋值</span></span><br><span class="line">    pair&lt;string, int&gt; p1("zd", 18);</span><br><span class="line">    <span class="comment">//make_pair可以当匿名方法使用，返回一个pair</span></span><br><span class="line">    pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; p = make_pair(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//先声明一个pair，再分别给属性赋值</span></span><br><span class="line">    pair&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; p2;</span><br><span class="line">    p2.first = <span class="string">"why"</span>;</span><br><span class="line">    p2.second = <span class="number">18</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//给map插入一个pair，这里的pair不用有变量名</span></span><br><span class="line">    <span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; m;</span><br><span class="line">    m.insert(pair&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt;(<span class="string">"zs"</span>, <span class="number">20</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="带构造方法的结构体的写法"><a href="#带构造方法的结构体的写法" class="headerlink" title="带构造方法的结构体的写法"></a>带构造方法的结构体的写法</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Person</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="built_in">string</span> name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//类似于class中的构造函数快速赋值</span></span><br><span class="line">    Person(<span class="keyword">int</span> age, <span class="built_in">string</span> name) : age(age), name(name) &#123;&#125;</span><br><span class="line">&#125; Person;</span><br></pre></td></tr></table></figure>
+
+<h2 id="c-中1和0在表达式中可以代替true或者false"><a href="#c-中1和0在表达式中可以代替true或者false" class="headerlink" title="c++中1和0在表达式中可以代替true或者false"></a>c++中1和0在表达式中可以代替true或者false</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//两个for一个道理</span></span><br><span class="line"><span class="keyword">if</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"yes"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"yes"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何创建一个结构体变量"><a href="#如何创建一个结构体变量" class="headerlink" title="如何创建一个结构体变量"></a>如何创建一个结构体变量</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    TreeNode *left;</span><br><span class="line">    TreeNode *right;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//构造方法</span></span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) : val(x), left(<span class="literal">NULL</span>), right(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    TreeNode() &#123;&#125;</span><br><span class="line">&#125; TreeNode;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//和pair相似，直接创建一个结构体并且调用它的构造函数</span></span><br><span class="line">    <span class="function">TreeNode <span class="title">p1</span><span class="params">(<span class="number">5</span>)</span></span>;</span><br><span class="line">    TreeNode p;    <span class="comment">//这是不调用构造方法写法</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//先创建对象，然后给属性赋值</span></span><br><span class="line">    TreeNode p2;</span><br><span class="line">    p2.val = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//创建一个结构体指针,指向p1这个结构体</span></span><br><span class="line">    TreeNode * point = &amp;p1;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; point-&gt;val &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//使用new给一个结构体指针在堆区分配内存，和java很像</span></span><br><span class="line">    TreeNode *p3 = <span class="keyword">new</span> TreeNode(<span class="number">10</span>);</span><br><span class="line">    <span class="comment">//使用malloc给结构体指针分配内存，注意这里要将分配的内存转换成指定指针类型</span></span><br><span class="line">    TreeNode *p4 = (TreeNode *) <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(TreeNode));</span><br><span class="line">    p3-&gt;val = <span class="number">20</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; p3-&gt;val &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    p4-&gt;val = <span class="number">22</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; p4-&gt;val &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里说一下结构体和结构体指针的区别：</p>
+<ol>
+<li><p>首先使用的地方不同，结构体指针用在结构体之间有关联，</p>
+<ol>
+<li>比如链表，树这种，需要在结构体中存储下一个结构体的地址才能产生关联，所以这是结构体指针用的地方。那比如有时候用不到结构体指针，</li>
+<li>比如单纯的想在容器里存储结构体，比如把结构体存入栈或者队列之列的容器，不需要结构体中产生关联，所以这时候就用不到结构体指针，单纯的声明结构体变量然后对结构体变量进行操作就行。</li>
+</ol>
+</li>
+<li><p>虽然使用地方不同，但是结构体指针完全可以代替结构体变量，因为声明结构体变量的时候可以取而代之声明结构体指针，然后通过指针达到对结构体变量的操作产生相同的效果。</p>
+</li>
+<li><p>通过使用结构体指针，能达到和java很像的语法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TreeNode node = <span class="keyword">new</span> TreeNode(val);</span><br></pre></td></tr></table></figure>
+
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TreeNode * node = <span class="keyword">new</span> TreeNode(val);</span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line">TreeNode * node = (TreeNode *)<span class="built_in">malloc</span>(TreeNode);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="注意使用匿名的时候"><a href="#注意使用匿名的时候" class="headerlink" title="注意使用匿名的时候"></a>注意使用匿名的时候</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">TreeNode <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使用匿名的时候不需要加变变量名</span></span><br><span class="line">    <span class="keyword">return</span> TreeNode();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用unorder-set和unorder-map的存储自定义类型的时候"><a href="#使用unorder-set和unorder-map的存储自定义类型的时候" class="headerlink" title="使用unorder_set和unorder_map的存储自定义类型的时候"></a>使用unorder_set和unorder_map的存储自定义类型的时候</h2><p>这时候要注意，因为unorder_set和unorder_map的实现是靠hash来实现的，并且这两个容器里面的数据时无序的，<br><strong>所以这两个容器对其存储的数据类型的要求是：这些类型要重写这两个方法。hash<key> 以及 equal_to<key></key></key></strong><br>这和java里面的hashcode()方法和equals()方法很像，<br>那么就可以发现</p>
+<ol>
+<li>当存储内置类型的时候，其实这两个方法是已经写好了的，所以在存储自定义类型的时候是不需要重写这两个方法的</li>
+<li>当存储自定义类型的时候，是需要重写的，因为系统不知道<strong>你自定义的类型是的哈希值是怎么算的，并且当出现哈希冲突的时候你怎么处理两个对象是否相同</strong>。</li>
+<li>当存储pair这种的时候，得重写hash方法。很好理解：pair系统肯定知道这么判断相同，但是怎么判断哈希值就是问题了。</li>
+</ol>
+<p>下面代码：使用unorder_set存储自定义类型TreeNode</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> x;</span><br><span class="line">    <span class="keyword">int</span> y;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//构造方法</span></span><br><span class="line">    TreeNode(<span class="keyword">int</span> x, <span class="keyword">int</span> y) : x(x), y(y) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    TreeNode() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在类中重写equal_to方法，判断两个对象是否相同</span></span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">operator</span>==(<span class="keyword">const</span> TreeNode &amp;t) <span class="keyword">const</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x == t.x &amp;&amp; y == t.y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; TreeNode, *TreeNodePoint;</span><br><span class="line"></span><br><span class="line"><span class="comment">//将哈希函数写在外面</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">TreeNodeHash</span> &#123;</span></span><br><span class="line">    <span class="comment">//计算某个对象的哈希值</span></span><br><span class="line">    <span class="function"><span class="keyword">size_t</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> TreeNode &amp;t)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> t.x * <span class="number">100000007</span> + t.y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; TreeNodeHash;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//在存储自定义类型的时候传入自己的哈希函数</span></span><br><span class="line">    <span class="built_in">unordered_set</span>&lt;TreeNode, TreeNodeHash&gt; <span class="built_in">set</span>;</span><br><span class="line">    <span class="built_in">set</span>.insert(TreeNode(<span class="number">1</span>, <span class="number">2</span>));</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">set</span>.size() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用unorder_set存储pair</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//哈希函数写</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">TreeNodeHash</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">size_t</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; &amp;t)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> t.first * <span class="number">100000007</span> + t.second;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; TreeNodeHash;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//存储pair&lt;int.int&gt;的时候不用重写equal_to方法，因为</span></span><br><span class="line">    <span class="comment">//这种半内置类型不需要重写equal_to方法，只需要hash方法</span></span><br><span class="line">    <span class="built_in">unordered_set</span>&lt;pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;, TreeNodeHash&gt; <span class="built_in">set</span>;</span><br><span class="line">    <span class="built_in">set</span>.insert(make_pair(<span class="number">1</span>, <span class="number">2</span>));</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">set</span>.size() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="存储自定义类型指针的时候，不用重写！！！！"><a href="#存储自定义类型指针的时候，不用重写！！！！" class="headerlink" title="存储自定义类型指针的时候，不用重写！！！！"></a>存储自定义类型指针的时候，不用重写！！！！</h3><h2 id="在c-中使用int的最大值和最小值"><a href="#在c-中使用int的最大值和最小值" class="headerlink" title="在c++中使用int的最大值和最小值"></a>在c++中使用int的最大值和最小值</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> min = <span class="number">0x80000000</span>;</span><br><span class="line">    <span class="keyword">int</span> max = <span class="number">0x7fffffff</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"int的最小值是"</span>&lt;&lt;min&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"int的最大值是"</span>&lt;&lt;max&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="在c-中声明数组的时候直接复制"><a href="#在c-中声明数组的时候直接复制" class="headerlink" title="在c++中声明数组的时候直接复制"></a>在c++中声明数组的时候直接复制</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//比如经常用的方向数组</span></span><br><span class="line"><span class="keyword">int</span> dr[<span class="number">4</span>]&#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">-1</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> dc[<span class="number">4</span>]&#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">-1</span>, <span class="number">0</span>&#125;;</span><br><span class="line">或者</span><br><span class="line"><span class="keyword">int</span> dr[<span class="number">4</span>] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">-1</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> dc[<span class="number">4</span>] = &#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">-1</span>, <span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//vector也是一样的</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="vector的赋值"><a href="#vector的赋值" class="headerlink" title="vector的赋值"></a>vector的赋值</h2><p>vector类似于java里面的容器，在容器没有声明初始大小的时候，就不能通过指针访问，也就是不能通过v[i]这么来访问，必须先push_back几个元素后才能通过v[i]访问</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//比如</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line"></span><br><span class="line">v[<span class="number">10</span>] = <span class="number">100</span>;    <span class="comment">//报错,在vector不知道自己长度之前不能通过指针访问</span></span><br><span class="line">v.push_back(<span class="number">10</span>);     <span class="comment">//正确</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//如果在声明的时候设置了长度</span></span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">v</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line"><span class="built_in">vector</span>[<span class="number">9</span>] = <span class="number">9</span>;  <span class="comment">//正确，因为有了长度</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//二维的设置初始长度,一维是10，二维是20</span></span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="title">v</span><span class="params">(<span class="number">10</span>,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(<span class="number">20</span>))</span></span>;</span><br><span class="line"><span class="built_in">vector</span>[<span class="number">5</span>][<span class="number">5</span>] = <span class="number">25</span>;  <span class="comment">//正确，因为每个维度都有了长度</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="判断从字符串变整数的时候是否可以越整数的界"><a href="#判断从字符串变整数的时候是否可以越整数的界" class="headerlink" title="判断从字符串变整数的时候是否可以越整数的界"></a>判断从字符串变整数的时候是否可以越整数的界</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> digit = str[i] - <span class="number">48</span>;</span><br><span class="line"><span class="keyword">if</span> (ans &gt; (INT_MAX - digit) / <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="comment">// 本来应该是 ans * 10 + digit &gt; Integer.MAX_VALUE</span></span><br><span class="line">    <span class="comment">// 但是 *10 和 + digit 都有可能越界，所有都移动到右边去就可以了。</span></span><br><span class="line">    <span class="keyword">return</span> negative ? INT_MIN : INT_MAX;</span><br><span class="line">&#125;</span><br><span class="line">ans = ans * <span class="number">10</span> + digit;</span><br><span class="line">i++;</span><br></pre></td></tr></table></figure>
+
+<p>这个例子中，-2147483648返回的就是本身，可以举例子，发现这个规则是符合的</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/c/" rel="tag"># c++</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/17/leetcode-1160. 拼写单词/" rel="next" title="leetcode-1160. 拼写单词">
+                <i class="fa fa-chevron-left"></i> leetcode-1160. 拼写单词
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/18/leetcode-836. 矩形重叠/" rel="prev" title="leetcode-836. 矩形重叠">
+                leetcode-836. 矩形重叠 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <a href="/">
+          <img class="site-author-image" itemprop="image" src="/image/avatar.jpg" alt="why0609why">
+        </a>  
+
+          <p class="site-author-name" itemprop="name">why0609why</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">292</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/why0609why" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      Github
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=843349285&website=www.oicqzone.com || qq" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                    
+                      QQ
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://leetcode-cn.com/u/why0609why" target="_blank" title="leetcode">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      leetcode
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#stl"><span class="nav-number">1.</span> <span class="nav-text">stl</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优先队列的排序"><span class="nav-number">1.1.</span> <span class="nav-text">优先队列的排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优先队列存储基本类型"><span class="nav-number">1.1.1.</span> <span class="nav-text">优先队列存储基本类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优先队列存储自定义类型"><span class="nav-number">1.1.2.</span> <span class="nav-text">优先队列存储自定义类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优先队列总结"><span class="nav-number">1.2.</span> <span class="nav-text">优先队列总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sort进行排序"><span class="nav-number">1.3.</span> <span class="nav-text">sort进行排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sort对数组排序"><span class="nav-number">1.3.1.</span> <span class="nav-text">sort对数组排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#从小到大排序"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">从小到大排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从大到小排序"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">从大到小排序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对vector排序"><span class="nav-number">1.3.2.</span> <span class="nav-text">对vector排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#从小到大排序-1"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">从小到大排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从大到小排序-1"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">从大到小排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用vector对自定义类型存储"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">使用vector对自定义类型存储</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用sort的总结"><span class="nav-number">1.3.3.</span> <span class="nav-text">使用sort的总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对set的排序"><span class="nav-number">1.4.</span> <span class="nav-text">对set的排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#set存储基本类型"><span class="nav-number">1.4.1.</span> <span class="nav-text">set存储基本类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#从小到大"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">从小到大</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从大到小"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">从大到小</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set存储自定义类型"><span class="nav-number">1.4.2.</span> <span class="nav-text">set存储自定义类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对map的排序"><span class="nav-number">1.5.</span> <span class="nav-text">对map的排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#map存储基本类型"><span class="nav-number">1.5.1.</span> <span class="nav-text">map存储基本类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#键从小到大"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">键从小到大</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从大到小-1"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">从大到小</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#map存储自定义类型"><span class="nav-number">1.5.2.</span> <span class="nav-text">map存储自定义类型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#leetcode"><span class="nav-number">2.</span> <span class="nav-text">leetcode</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sizeof很常用"><span class="nav-number">2.1.</span> <span class="nav-text">sizeof很常用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不用迭代器遍历map"><span class="nav-number">2.2.</span> <span class="nav-text">不用迭代器遍历map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pair的使用"><span class="nav-number">2.3.</span> <span class="nav-text">pair的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#带构造方法的结构体的写法"><span class="nav-number">2.4.</span> <span class="nav-text">带构造方法的结构体的写法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c-中1和0在表达式中可以代替true或者false"><span class="nav-number">2.5.</span> <span class="nav-text">c++中1和0在表达式中可以代替true或者false</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何创建一个结构体变量"><span class="nav-number">2.6.</span> <span class="nav-text">如何创建一个结构体变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意使用匿名的时候"><span class="nav-number">2.7.</span> <span class="nav-text">注意使用匿名的时候</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用unorder-set和unorder-map的存储自定义类型的时候"><span class="nav-number">2.8.</span> <span class="nav-text">使用unorder_set和unorder_map的存储自定义类型的时候</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#存储自定义类型指针的时候，不用重写！！！！"><span class="nav-number">2.8.1.</span> <span class="nav-text">存储自定义类型指针的时候，不用重写！！！！</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在c-中使用int的最大值和最小值"><span class="nav-number">2.9.</span> <span class="nav-text">在c++中使用int的最大值和最小值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在c-中声明数组的时候直接复制"><span class="nav-number">2.10.</span> <span class="nav-text">在c++中声明数组的时候直接复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vector的赋值"><span class="nav-number">2.11.</span> <span class="nav-text">vector的赋值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判断从字符串变整数的时候是否可以越整数的界"><span class="nav-number">2.12.</span> <span class="nav-text">判断从字符串变整数的时候是否可以越整数的界</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">why0609why</span>
+</div>
+
+
+
+
+<div>
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("07/20/2019 21:09:46");
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "我已在此等你"+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+  <script>
+    var OriginTitile = document.title;
+    var titleTime;
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        document.title = '(つェ⊂)死鬼快回来~' + OriginTitile;
+        clearTimeout(titleTime);
+      } else {
+        document.title = '(*´∇｀*) 么么~' + OriginTitile;
+        titleTime = setTimeout(function() {
+          document.title = OriginTitile;
+        }, 2000);
+      }
+    });
+  </script>
+
+
+  
+ 
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+

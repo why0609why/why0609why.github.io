@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="线段树,数据结构,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="关于数组实现的线段树的4*n的容量解释 线段树不是完全二叉树，但线段树本身就是一颗平衡二叉树(最大深度和最小深度的差值不会超过1)，而且线段树可以近似看成一个满的二叉树，只不过在没有节点的地方放的空节点来代替节点来形成满二叉树，如图 还有一个规律，对于一颗深度为h的线段树，假设深度是从0开始计的(那么行数分别是0,1,2…h-1)，那么可以看出第0行有1个节点(2^0)，第一行有2个节点(2^1)">
+<meta name="keywords" content="线段树,数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线段树">
+<meta property="og:url" content="https://dddblog.fun/2019/08/21/线段树/index.html">
+<meta property="og:site_name" content="油尖旺金毛玲">
+<meta property="og:description" content="关于数组实现的线段树的4*n的容量解释 线段树不是完全二叉树，但线段树本身就是一颗平衡二叉树(最大深度和最小深度的差值不会超过1)，而且线段树可以近似看成一个满的二叉树，只不过在没有节点的地方放的空节点来代替节点来形成满二叉树，如图 还有一个规律，对于一颗深度为h的线段树，假设深度是从0开始计的(那么行数分别是0,1,2…h-1)，那么可以看出第0行有1个节点(2^0)，第一行有2个节点(2^1)">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://dddblog.fun/image/segtree1.png">
+<meta property="og:image" content="https://dddblog.fun/image/segtree2.png">
+<meta property="og:updated_time" content="2020-09-28T09:10:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线段树">
+<meta name="twitter:description" content="关于数组实现的线段树的4*n的容量解释 线段树不是完全二叉树，但线段树本身就是一颗平衡二叉树(最大深度和最小深度的差值不会超过1)，而且线段树可以近似看成一个满的二叉树，只不过在没有节点的地方放的空节点来代替节点来形成满二叉树，如图 还有一个规律，对于一颗深度为h的线段树，假设深度是从0开始计的(那么行数分别是0,1,2…h-1)，那么可以看出第0行有1个节点(2^0)，第一行有2个节点(2^1)">
+<meta name="twitter:image" content="https://dddblog.fun/image/segtree1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://dddblog.fun/2019/08/21/线段树/">
+
+
+
+
+
+  <title>线段树 | 油尖旺金毛玲</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+  <script src="/live2d-widget/autoload.js"></script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">油尖旺金毛玲</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dddblog.fun/2019/08/21/线段树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="why0609why">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/image/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="油尖旺金毛玲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">线段树</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-21T16:28:58+08:00">
+                2019-08-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法总结/" itemprop="url" rel="index">
+                    <span itemprop="name">算法总结</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="关于数组实现的线段树的4-n的容量解释"><a href="#关于数组实现的线段树的4-n的容量解释" class="headerlink" title="关于数组实现的线段树的4*n的容量解释"></a>关于数组实现的线段树的4*n的容量解释</h1><ol>
+<li>线段树不是完全二叉树，但线段树本身就是一颗平衡二叉树(最大深度和最小深度的差值不会超过1)，而且线段树可以近似看成一个满的二叉树，只不过在没有节点的地方放的空节点来代替节点来形成满二叉树，如图<br><img src="/image/segtree1.png" alt></li>
+<li>还有一个规律，对于一颗深度为h的线段树，假设深度是从0开始计的(那么行数分别是0,1,2…h-1)，那么可以看出第0行有1个节点(2^0)，第一行有2个节点(2^1)，第二行有4个节点(2^2)，那么可以得出第h-1行有(2^(h-1))个节点，那么根据等比数列的前n项和可以得出这一颗深度为h的线段树总共有2^h-1个节点，那么注意，最后一行(第h-1行)的节点个数是2^(h-1)个，可以化简为2^h/2，近似可以看成占了整棵数的一半的节点个数(实则可以根据刚才的式子可以看出是占了一半多一点点，因为最后一行的个数是2^h的一半，而总共的个数是2^h-1,)，而深度为h的线段树中除了最后一行的节点个数为2^h-1-2^h/2<br><img src="/image/segtree2.png" alt></li>
+<li>知道了上面的规律以后就可以知道当一个数组有n个元素的时候，假设这个n = 2^k，也就是说在第k层的时候，数组中n个数都被放到了线段树的第k层中，那么只需要2n个元素的位置就可以以线段树的形式完全存放这个数组了。因为最后一行是n个，上面的是比n个小一点的，如果用2n个空间就足够了。那么在假设一个最坏的情况，也就是n = 2^k+1的时候，这时候第k行把数组中n个元素都放进去之后，再有一个元素放到第k+1行中，那么依照满二叉树的性质，就至少需要4n个空间了，原理同上，第k及往上一共是2n个，第k+1行又是2n的两倍，自然全部的元素个数需要4n了，这也就是线段树一般需要4n个内存的原因。 </li>
+</ol>
+<h1 id="点"><a href="#点" class="headerlink" title="点"></a>点</h1><ol>
+<li><p>因为这里是把线段树看做一颗满二叉树来用的，所以自然就是用数组来实现比较方便。</p>
+</li>
+<li><p>这里的线段树的操作只有建树，区间查询，单点修改。(没有区间的惰性修改)</p>
+</li>
+<li><p>实质上能对线段树进行修改的索引只有treeIndex，而treeIndex位置上的只有区间节点和普通节点，在treeIndex索引对应的是区间节点的时候,tree[treeIndex]对应的是一个区间的merger操作产生的值，也就是说处理这个节点的时候要像处理区间一样处理，当treeIndex索引对应的是一个叶子节点的话，tree[treeIndex]的值是原数组中的值。</p>
+</li>
+<li><p>线段树的基本操作</p>
+<ol>
+<li><p>建树</p>
+<ol>
+<li>数组建树<ol>
+<li>首先得有一个原数组data，先创建一个4倍data数组长度的线段树数组tree，然后递归创建tree数组</li>
+<li>递归的作用就是每次把tree[treeIndex]的值确定好，并且把treeIndex的左右子树都建立好，每次递归都需要传递treeIndex(通过这个索引可以访问到tree中的值，如果是区间节点访问的就是区间值，如果是叶子节点，访问的就是普通值)，并且还要传递每个treeIndex对应的左(l)右(r)区间，当然还得有data原数组。</li>
+<li>递归内容：当发现这个treeIndex的节点的左右区间相同，那么就是遍历到叶子节点了，那就把tree[treeIndex]赋值成对应的原数组中的内容data[l]，如果左右区间不同的时候，就继续递归当前这个节点的左右子区间，在递归完左右子区间之后，把左右子区间的值merge一下，即<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tree[treeIndex] = merger.merger(tree[leftIndex],tree[rightIndex])`</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>区间查询</p>
+<ol>
+<li>数组区间查询<ol>
+<li>如果发现当前节点的区间就是所查询的区间，就直接返回当前treeIndex上的值，如果不是那就分情况讨论查询的区间在当前区间的位置，如果查询的区间完全在当前区间的左边，那就从当前区间的左区间开始查，如果是右面那就从当前区间的右区间开始查，如果查询的区间正好在中间一部分，也就是左右区间都有涉及，那就把要查询的区间以当前所在的区间的中点分段查询，然后分别统计两段区间的值，然后merger</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>单点修改</p>
+<ol>
+<li><p>数组的单点修改</p>
+<ol>
+<li><p>如果修改的index就是当前区间(那一定是叶子节点)对应的index，就直接修改，否则看index在treeIndex对应的区间中是在左半边还是右半边，index在treeIndex区间的左半边的话就往左半边进行递归，右半边就往右半边递归，在递归完之后，再把当前treeIndex上的值进行更新，即</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tree[treeIndex] = merger.merge(tree[leftTreeIndex], tree[rightTreeIndex])</span><br></pre></td></tr></table></figure>
+
+<p>因为不管是<code>tree[leftTreeIndex]</code>还是<code>tree[rightTreeIndex]</code>都在递归中被更新了，因为子节点是先被更新的</p>
+</li>
+</ol>
+</li>
+<li><p>区间修改,</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>用数组实现线段树时，每次递归时的l,r其实就是线段树中索引为treeIndex的左右区间，所以l,r是不能随便改变的。(因为没有封装，所以只能以形参的形式传递)</p>
+</li>
+</ol>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="Merger接口"><a href="#Merger接口" class="headerlink" title="Merger接口"></a>Merger接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Merger</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">E <span class="title">merge</span><span class="params">(E a, E b)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="数组实现线段树"><a href="#数组实现线段树" class="headerlink" title="数组实现线段树"></a>数组实现线段树</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SegmentTree</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> E[] tree;</span><br><span class="line">    <span class="keyword">private</span> E[] data;</span><br><span class="line">    <span class="keyword">private</span> Merger&lt;E&gt; merger;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SegmentTree</span><span class="params">(E[] arr, Merger&lt;E&gt; merger)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.merger = merger;</span><br><span class="line"></span><br><span class="line">        data = (E[])<span class="keyword">new</span> Object[arr.length];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; arr.length ; i ++)</span><br><span class="line">            data[i] = arr[i];</span><br><span class="line"></span><br><span class="line">        tree = (E[])<span class="keyword">new</span> Object[<span class="number">4</span> * arr.length];</span><br><span class="line">        buildSegmentTree(<span class="number">0</span>, <span class="number">0</span>, arr.length - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在treeIndex的位置创建表示区间[l...r]的线段树</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">buildSegmentTree</span><span class="params">(<span class="keyword">int</span> treeIndex, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//遍历到节点的时候，自然就是把节点上的值赋值到tree数组中</span></span><br><span class="line">        <span class="keyword">if</span>(l == r)&#123;</span><br><span class="line">            tree[treeIndex] = data[l];</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//拿到当前节点的左孩子所在的节点的索引</span></span><br><span class="line">        <span class="keyword">int</span> leftTreeIndex = leftChild(treeIndex);</span><br><span class="line">        <span class="comment">//拿到右孩子的节点</span></span><br><span class="line">        <span class="keyword">int</span> rightTreeIndex = rightChild(treeIndex);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// int mid = (l + r) / 2;</span></span><br><span class="line">        <span class="keyword">int</span> mid = l + (r - l) / <span class="number">2</span>;</span><br><span class="line">        buildSegmentTree(leftTreeIndex, l, mid);</span><br><span class="line">        buildSegmentTree(rightTreeIndex, mid + <span class="number">1</span>, r);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//在一个节点的左右子树都建造完事后，就需要把当前节点的值变更成merger了两个子树的内容</span></span><br><span class="line">        tree[treeIndex] = merger.merge(tree[leftTreeIndex], tree[rightTreeIndex]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> data.length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index &lt; <span class="number">0</span> || index &gt;= data.length)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Index is illegal."</span>);</span><br><span class="line">        <span class="keyword">return</span> data[index];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回完全二叉树的数组表示中，一个索引所表示的元素的左孩子节点的索引</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">leftChild</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span>*index + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回完全二叉树的数组表示中，一个索引所表示的元素的右孩子节点的索引</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">rightChild</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span>*index + <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回区间[queryL, queryR]的值</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">query</span><span class="params">(<span class="keyword">int</span> queryL, <span class="keyword">int</span> queryR)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(queryL &lt; <span class="number">0</span> || queryL &gt;= data.length ||</span><br><span class="line">                queryR &lt; <span class="number">0</span> || queryR &gt;= data.length || queryL &gt; queryR)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Index is illegal."</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> query(<span class="number">0</span>, <span class="number">0</span>, data.length - <span class="number">1</span>, queryL, queryR);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在以treeIndex为根的线段树中[l...r]的范围里，搜索区间[queryL...queryR]的值,注意这个l,r必须是treeIndex对应的l和r，不能更改为queryL和qeuryR</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> E <span class="title">query</span><span class="params">(<span class="keyword">int</span> treeIndex, <span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> queryL, <span class="keyword">int</span> queryR)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//如果当前遍历到的区间就是索要查询的区间，那么tree中代表这个的区间的值就是要查询的区间的值</span></span><br><span class="line">        <span class="keyword">if</span>(l == queryL &amp;&amp; r == queryR)</span><br><span class="line">            <span class="keyword">return</span> tree[treeIndex];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> mid = l + (r - l) / <span class="number">2</span>;</span><br><span class="line">        <span class="comment">// treeIndex的节点分为[l...mid]和[mid+1...r]两部分</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> leftTreeIndex = leftChild(treeIndex);</span><br><span class="line">        <span class="keyword">int</span> rightTreeIndex = rightChild(treeIndex);</span><br><span class="line">        <span class="comment">//如果所查询的区间在当前区间的右半段的话</span></span><br><span class="line">        <span class="keyword">if</span>(queryL &gt;= mid + <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> query(rightTreeIndex, mid + <span class="number">1</span>, r, queryL, queryR);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(queryR &lt;= mid)<span class="comment">//如果是左半段的话</span></span><br><span class="line">            <span class="keyword">return</span> query(leftTreeIndex, l, mid, queryL, queryR);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//如果左右区间都有的占到的话，就分段取值，再统计分段后的值</span></span><br><span class="line">        E leftResult = query(leftTreeIndex, l, mid, queryL, mid);</span><br><span class="line">        E rightResult = query(rightTreeIndex, mid + <span class="number">1</span>, r, mid + <span class="number">1</span>, queryR);</span><br><span class="line">        <span class="keyword">return</span> merger.merge(leftResult, rightResult);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将index位置的值，更新为e</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span> index, E e)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(index &lt; <span class="number">0</span> || index &gt;= data.length)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Index is illegal"</span>);</span><br><span class="line"></span><br><span class="line">        data[index] = e;</span><br><span class="line">        set(<span class="number">0</span>, <span class="number">0</span>, data.length - <span class="number">1</span>, index, e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在以treeIndex为根的线段树中更新index的值为e</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span> treeIndex, <span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> index, E e)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//这就是遍历到index的那个节点的时候</span></span><br><span class="line">        <span class="keyword">if</span>(l == r)&#123;</span><br><span class="line">            tree[treeIndex] = e;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> mid = l + (r - l) / <span class="number">2</span>;</span><br><span class="line">        <span class="comment">// treeIndex的节点分为[l...mid]和[mid+1...r]两部分</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//从左右子树逐渐遍历到节点</span></span><br><span class="line">        <span class="keyword">int</span> leftTreeIndex = leftChild(treeIndex);</span><br><span class="line">        <span class="keyword">int</span> rightTreeIndex = rightChild(treeIndex);</span><br><span class="line">        <span class="keyword">if</span>(index &gt;= mid + <span class="number">1</span>)</span><br><span class="line">            set(rightTreeIndex, mid + <span class="number">1</span>, r, index, e);</span><br><span class="line">        <span class="keyword">else</span> <span class="comment">// index &lt;= mid</span></span><br><span class="line">            set(leftTreeIndex, l, mid, index, e);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//此时在treeIndex这里，index其实相当于是treeIndex的子节点，因为index已经更新过，所以再更新treeIndex</span></span><br><span class="line">        tree[treeIndex] = merger.merge(tree[leftTreeIndex], tree[rightTreeIndex]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span>&#123;</span><br><span class="line">        StringBuilder res = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        res.append(<span class="string">'['</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; tree.length ; i ++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(tree[i] != <span class="keyword">null</span>)</span><br><span class="line">                res.append(tree[i]);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                res.append(<span class="string">"null"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(i != tree.length - <span class="number">1</span>)</span><br><span class="line">                res.append(<span class="string">", "</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        res.append(<span class="string">']'</span>);</span><br><span class="line">        <span class="keyword">return</span> res.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="链表实现线段树"><a href="#链表实现线段树" class="headerlink" title="链表实现线段树"></a>链表实现线段树</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkArrSegTree</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> E[] data;</span><br><span class="line">    <span class="comment">//每个节点</span></span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">SegmentTreeNode</span></span>&#123;</span><br><span class="line">        <span class="comment">//把一个节点的左右区间封装到节点内部中</span></span><br><span class="line">        <span class="keyword">int</span> l;</span><br><span class="line">        <span class="keyword">int</span> r;</span><br><span class="line">        E value;</span><br><span class="line">        <span class="comment">//左右孩子也是</span></span><br><span class="line">        SegmentTreeNode leftChild;</span><br><span class="line">        SegmentTreeNode rightChild;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">SegmentTreeNode</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.l = l;</span><br><span class="line">            <span class="keyword">this</span>.r = r;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    SegmentTreeNode root = <span class="keyword">null</span>;</span><br><span class="line">    Merger&lt;E&gt; merger;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//把nums数组按照merger操作造成一颗线段树</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LinkArrSegTree</span><span class="params">(E[] nums,Merger&lt;E&gt; merger)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//先把merger操作复制了</span></span><br><span class="line">        <span class="keyword">this</span>.merger = merger;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//为了类中的成员变量能访问到nums的内容，所以让data代替nums</span></span><br><span class="line">        data = (E[]) <span class="keyword">new</span> Object[nums.length];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">            data[i] = nums[i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//从根节点开始建树</span></span><br><span class="line">        root = build(<span class="number">0</span>, data.length-<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建一个区间范围是l~r的节点</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> SegmentTreeNode <span class="title">build</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//不管啥先创建一个新的节点</span></span><br><span class="line">        SegmentTreeNode node = <span class="keyword">new</span> SegmentTreeNode(l,r);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//如果遍历到了叶子节点</span></span><br><span class="line">        <span class="keyword">if</span> (l == r)&#123;</span><br><span class="line">            node.value = data[l];</span><br><span class="line">            <span class="keyword">return</span> node;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> mid = l + (r - l) / <span class="number">2</span>;</span><br><span class="line">        node.leftChild = build(l, mid);</span><br><span class="line">        node.rightChild = build(mid + <span class="number">1</span>, r);</span><br><span class="line"></span><br><span class="line">        node.value = merger.merge(node.leftChild.value, node.rightChild.value);</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//查询区间queryL到queryR的值</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">query</span><span class="params">(<span class="keyword">int</span> queryL, <span class="keyword">int</span> queryR)</span></span>&#123;</span><br><span class="line">        <span class="comment">//需要从根节点开始查找区间</span></span><br><span class="line">        <span class="keyword">return</span> query(root, queryL, queryR);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//每次查询递归的函数,treeNode对应的区间已经封装在treeNode节点里面了</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> E <span class="title">query</span><span class="params">(SegmentTreeNode treeNode, <span class="keyword">int</span> queryL, <span class="keyword">int</span> queryR)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (treeNode.l == queryL &amp;&amp; treeNode.r == queryR)&#123;</span><br><span class="line">            <span class="keyword">return</span> treeNode.value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> mid = treeNode.l + (treeNode.r - treeNode.l) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (queryL &gt;= mid + <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> query(treeNode.rightChild, queryL, queryR);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (queryR &lt;= mid)&#123;</span><br><span class="line">            <span class="keyword">return</span> query(treeNode.leftChild, queryL, queryR);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        E leftResult = query(treeNode.leftChild, queryL, mid);</span><br><span class="line">        E rightResult = query(treeNode.rightChild, mid + <span class="number">1</span>, queryR);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> merger.merge(leftResult,rightResult);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//把index索引位置上的值更新为e</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> index, E e)</span></span>&#123;</span><br><span class="line">        data[index] = e;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//更新线段树的某个点需要从树的根节点开始更新</span></span><br><span class="line">        update(root, index, e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//这是真正用来递归的函数</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(SegmentTreeNode treeNode, <span class="keyword">int</span> index, E e)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (treeNode.l == index &amp;&amp; treeNode.r == index)&#123;</span><br><span class="line">            treeNode.value = e;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> mid = treeNode.l + (treeNode.r - treeNode.l) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (index &gt;= mid + <span class="number">1</span>)&#123;</span><br><span class="line">            update(treeNode.rightChild, index, e);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (index &lt;= mid)&#123;</span><br><span class="line">            update(treeNode.leftChild,index, e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        treeNode.value = merger.merge(treeNode.leftChild.value, treeNode.rightChild.value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/线段树/" rel="tag"># 线段树</a>
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/20/leetcode-347. 前 K 个高频元素/" rel="next" title="leetcode-347. 前 K 个高频元素">
+                <i class="fa fa-chevron-left"></i> leetcode-347. 前 K 个高频元素
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/22/leetcode-307.区域和检索-数组可修改/" rel="prev" title="leetcode-307. 区域和检索 - 数组可修改">
+                leetcode-307. 区域和检索 - 数组可修改 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <a href="/">
+          <img class="site-author-image" itemprop="image" src="/image/avatar.jpg" alt="why0609why">
+        </a>  
+
+          <p class="site-author-name" itemprop="name">why0609why</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">292</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/why0609why" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      Github
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=843349285&website=www.oicqzone.com || qq" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                    
+                      QQ
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://leetcode-cn.com/u/why0609why" target="_blank" title="leetcode">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      leetcode
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于数组实现的线段树的4-n的容量解释"><span class="nav-number">1.</span> <span class="nav-text">关于数组实现的线段树的4*n的容量解释</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#点"><span class="nav-number">2.</span> <span class="nav-text">点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Merger接口"><span class="nav-number">3.1.</span> <span class="nav-text">Merger接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组实现线段树"><span class="nav-number">3.2.</span> <span class="nav-text">数组实现线段树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链表实现线段树"><span class="nav-number">3.3.</span> <span class="nav-text">链表实现线段树</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">why0609why</span>
+</div>
+
+
+
+
+<div>
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("07/20/2019 21:09:46");
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "我已在此等你"+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+  <script>
+    var OriginTitile = document.title;
+    var titleTime;
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        document.title = '(つェ⊂)死鬼快回来~' + OriginTitile;
+        clearTimeout(titleTime);
+      } else {
+        document.title = '(*´∇｀*) 么么~' + OriginTitile;
+        titleTime = setTimeout(function() {
+          document.title = OriginTitile;
+        }, 2000);
+      }
+    });
+  </script>
+
+
+  
+ 
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+
