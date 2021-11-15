@@ -316,6 +316,186 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dddblog.fun/2019/08/01/javase基础知识1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="why0609why">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/image/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="油尖旺金毛玲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/01/javase基础知识1/" itemprop="url">javase基础知识1</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-01T12:14:58+08:00">
+                2019-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="lambda表达式"><a href="#lambda表达式" class="headerlink" title="lambda表达式"></a>lambda表达式</h1><p>lambda就是用来方便集合的遍历的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//除map集合的遍历</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test10</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    List&lt;String&gt; list = Arrays.asList(<span class="string">"张三"</span>, <span class="string">"李四"</span>, <span class="string">"王二麻子"</span>);</span><br><span class="line"></span><br><span class="line">    list.forEach((temp)-&gt; System.out.println(temp));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//map集合的遍历</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test11</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    Map&lt;String,Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    map.put(<span class="string">"key1"</span>,<span class="string">"value1"</span>);</span><br><span class="line">    map.put(<span class="string">"key2"</span>,<span class="string">"value2"</span>);</span><br><span class="line">    map.put(<span class="string">"key3"</span>,<span class="string">"value3"</span>);</span><br><span class="line"></span><br><span class="line">    map.forEach((k,v)-&gt; System.out.println(k+<span class="string">"="</span>+v));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="与equals的区别"><a href="#与equals的区别" class="headerlink" title="==与equals的区别"></a>==与equals的区别</h1><p>==:引用类型比较的是地址值，基本类型比较的是值<br>equals:被String类重写的equals()方法比较的是字符串的内容,一半没有重写的equals()内容就是==，重写主要是为了判断对象是否相同</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test12</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    <span class="comment">//不是new的话，看堆区是否有以前的内容，如果有的话就不信开辟内存，同样的栈区都有s1，s2的内存</span></span><br><span class="line">    String s1 = <span class="string">"abc"</span>;</span><br><span class="line">    String s2 = <span class="string">"abc"</span>;</span><br><span class="line">    System.out.println(s1 == s2);               <span class="comment">//true</span></span><br><span class="line">    System.out.println(s1.equals(s2));          <span class="comment">//true</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//每次new都在堆区产生了新的内存，同样的栈区都有s1，s2的内存</span></span><br><span class="line">    String s3 = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</span><br><span class="line">    String s4 = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</span><br><span class="line">    System.out.println(s3 == s4);               <span class="comment">//false</span></span><br><span class="line">    System.out.println(s3.equals(s4));          <span class="comment">//true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Integer-声明-i1-127-i2-127-i3-128-i3-128"><a href="#Integer-声明-i1-127-i2-127-i3-128-i3-128" class="headerlink" title="Integer 声明 i1= 127,i2 = 127 ,i3 = 128, i3 = 128;"></a>Integer 声明 i1= 127,i2 = 127 ,i3 = 128, i3 = 128;</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test13</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    <span class="comment">//因为当使用Integer引用的时候如果是一个字节以内的内容用的是一样的内存，一个字节的以外的东西用的就是不一样的内存</span></span><br><span class="line">    <span class="comment">//因为一个字节表示范围是-128~127,所以</span></span><br><span class="line">    Integer i1 = <span class="number">127</span>;</span><br><span class="line">    Integer i2 = <span class="number">127</span>;</span><br><span class="line">    Integer i3 = <span class="number">128</span>;</span><br><span class="line">    Integer i4 = <span class="number">128</span>;</span><br><span class="line"></span><br><span class="line">    System.out.println(i1 == i2);       <span class="comment">//true</span></span><br><span class="line">    System.out.println(i3 == i4);       <span class="comment">//false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="navicat修饰符"><a href="#navicat修饰符" class="headerlink" title="navicat修饰符"></a>navicat修饰符</h1><p>再看Object类里面比如hasCode()方法之类的会有navicat修饰符，表示java调用别的语言。</p>
+<h1 id="如何跳出多重for"><a href="#如何跳出多重for" class="headerlink" title="如何跳出多重for"></a>如何跳出多重for</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test03</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//break直接跳出flag对应的for循环</span></span><br><span class="line">    flag:</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">100</span>; j++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="number">100</span>; k++) &#123;</span><br><span class="line">                System.out.println(<span class="string">"1"</span>);</span><br><span class="line">                <span class="keyword">break</span> flag;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="amp-与-amp-amp-的区别"><a href="#amp-与-amp-amp-的区别" class="headerlink" title="&amp;与&amp;&amp;的区别"></a>&amp;与&amp;&amp;的区别</h1><ol>
+<li>条件1 &amp;&amp; 条件2：条件1为false，条件2不执行</li>
+<li>条件1 &amp; 条件2：条件1为false，条件2执行</li>
+<li>&amp;&amp;是短路与，&amp;是不短路的</li>
+</ol>
+<h1 id="强制类型转换和隐式类型转换"><a href="#强制类型转换和隐式类型转换" class="headerlink" title="强制类型转换和隐式类型转换"></a>强制类型转换和隐式类型转换</h1><ol>
+<li>将大的数据类型转换为小的数据类型称之为强制类型转换，会出现精度丢失</li>
+</ol>
+<h1 id="jvm，jre，jdk的区别"><a href="#jvm，jre，jdk的区别" class="headerlink" title="jvm，jre，jdk的区别"></a>jvm，jre，jdk的区别</h1><ol>
+<li>jvm：java虚拟机，用来保证java的跨平台特性</li>
+<li>jre：java的运行环境，包括jvm+lib(基础类库)</li>
+<li>jdk：java的开发工具，包含jre和开发工具</li>
+</ol>
+<h1 id="静态变量、静态代码块、静态方法、构造方法的执行顺序"><a href="#静态变量、静态代码块、静态方法、构造方法的执行顺序" class="headerlink" title="静态变量、静态代码块、静态方法、构造方法的执行顺序"></a>静态变量、静态代码块、静态方法、构造方法的执行顺序</h1><ol>
+<li>加载顺序：静态变量-&gt;静态代码块-&gt;静态方法-&gt;构造方法</li>
+</ol>
+<h1 id="饿汉式单例设计模式和懒汉式单例设计模式"><a href="#饿汉式单例设计模式和懒汉式单例设计模式" class="headerlink" title="饿汉式单例设计模式和懒汉式单例设计模式"></a>饿汉式单例设计模式和懒汉式单例设计模式</h1><ol>
+<li>单例设计模式：永远只能创建一个对象</li>
+<li>单例设计模式的书写方式总共是两种：饿汉式单例设计模式和懒汉式单例设计模式</li>
+<li>书写单例设计模式的语法规则：<ol>
+<li>类中的构造方法私有</li>
+<li>需要提供一个公共的获取对象的方法</li>
+</ol>
+</li>
+<li>懒汉式单例设计模式在多线程会有线程不安全：试想：如果线程1走入了懒汉式的getInstance里面的判断if里面，如果此时cat为null，那么进入if，然后此时如果线程1休眠，然后线程2进入if，cat有了一个堆区内存，然后当线程1回归时，cat又会有一个堆区内存，所以懒汉设计模式在多线程的条件下有可能成为多实例的，线程是不安全的</li>
+</ol>
+<h2 id="饿汉式单例设计模式"><a href="#饿汉式单例设计模式" class="headerlink" title="饿汉式单例设计模式"></a>饿汉式单例设计模式</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 饿汉式单例设计模式</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123;</span><br><span class="line">    <span class="comment">//直接造一个对象出来</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Dog dog = <span class="keyword">new</span> Dog();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Dog</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Dog <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> dog;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="懒汉式单例设计模式"><a href="#懒汉式单例设计模式" class="headerlink" title="懒汉式单例设计模式"></a>懒汉式单例设计模式</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 懒汉式单例设计模式</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cat</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//先造一个null</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Cat cat = <span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//私有化构造方法</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Cat</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//懒汉式的返回单例</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Cat <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (cat == <span class="keyword">null</span>)&#123;</span><br><span class="line">            cat = <span class="keyword">new</span> Cat();</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> cat;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://dddblog.fun/2019/08/01/leetcode-628. 三个数的最大乘积/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1748,171 +1928,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dddblog.fun/2019/07/29/leetcode-268.缺失数字/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="why0609why">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/image/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="油尖旺金毛玲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/29/leetcode-268.缺失数字/" itemprop="url">leetcode-268.缺失数字</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-29T11:46:30+08:00">
-                2019-07-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">给定一个包含 0, 1, 2, ..., n 中 n 个数的序列，找出 0 .. n 中没有出现在序列中的那个数。</span><br></pre></td></tr></table></figure>
-
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [3,0,1]</span><br><span class="line">输出: 2</span><br></pre></td></tr></table></figure>
-
-<h2 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [9,6,4,2,3,5,7,0,1]</span><br><span class="line">输出: 8</span><br></pre></td></tr></table></figure>
-
-<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">你的算法应具有线性时间复杂度。你能否仅使用额外常数空间来实现?</span><br></pre></td></tr></table></figure>
-
-<h1 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h1><ul>
-<li>说白了就是给你一个长度是n的数组，然后里面是0~n少一个，让你求出少了哪个</li>
-<li>一开始想的是用一个标技数组来记录谁出现和谁没有出现，出现的话值为1，没出现的话值为0。然后遍历数组记录值为0的索引位置。</li>
-<li>后来想如果可以排序的话，排序之后看那个索引上的值和索引不同就记录哪个数，注意这种做法有一种特殊情况，就是如果缺失的是最后一位的话，这样的判别不出来的，所以要加特判</li>
-<li>还能用set</li>
-<li>也能排序完之后用位运算，同样要判断只缺末尾的情况</li>
-</ul>
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="标记数组"><a href="#标记数组" class="headerlink" title="标记数组"></a>标记数组</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">missingNumber</span><span class="params">(<span class="keyword">int</span>[] a)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] book = <span class="keyword">new</span> <span class="keyword">int</span>[a.length+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//标记数组记录</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i : a) &#123;</span><br><span class="line">            book[i]++;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="comment">//遍历标记数组看谁值为0</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; book.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (book[i]==<span class="number">0</span>)&#123;</span><br><span class="line">                res = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//返回值为0的索引值，即缺失的数字</span></span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">missingNumber</span><span class="params">(<span class="keyword">int</span>[] a)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//特殊情况特判，如果是最后一位缺失的话就直接返回最后一位</span></span><br><span class="line">        <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">        Arrays.sort(a);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">            <span class="comment">//若当前索引和索引位置上的值不相同就记录这个索引</span></span><br><span class="line">            <span class="keyword">if</span> (a[i] != i)&#123;</span><br><span class="line">                res = i;</span><br><span class="line">                flag = <span class="keyword">true</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//若flag是false，那么就说明缺失的是最后一位，因为没有被记录的索引，自然缺失的是最后一位</span></span><br><span class="line">        <span class="keyword">if</span> (flag == <span class="keyword">false</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> a.length;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">missingNumber</span><span class="params">(<span class="keyword">int</span>[] a)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = -<span class="number">1</span>;</span><br><span class="line">        Set&lt;Integer&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//都放到set里面</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i : a) &#123;</span><br><span class="line">            set.add(i);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//从0到n一个一个在set里面找，看没有谁就记住谁</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= a.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!set.contains(i))&#123;</span><br><span class="line">                res = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">missingNumber</span><span class="params">(<span class="keyword">int</span>[] a)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = -<span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        Arrays.sort(a);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//缺失末尾的特判</span></span><br><span class="line">        <span class="keyword">if</span> (a[a.length-<span class="number">1</span>] == a.length-<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> a.length;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//i^i = 0，也就是索引和索引上的值进行位运算，不是0的记录</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> t = a[i]^i;</span><br><span class="line">            <span class="keyword">if</span> (t!=<span class="number">0</span>)&#123;</span><br><span class="line">                res = i;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h1><p><a href="https://leetcode-cn.com/problems/missing-number/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/missing-number/</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1964,7 +1979,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">292</span>
+                <span class="site-state-item-count">293</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1975,7 +1990,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1986,7 +2001,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-count">63</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -2064,7 +2079,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

@@ -316,6 +316,177 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dddblog.fun/2019/10/17/leetcode-946. 验证栈序列/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="why0609why">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/image/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="油尖旺金毛玲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/17/leetcode-946. 验证栈序列/" itemprop="url">leetcode-946. 验证栈序列</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-17T14:29:30+08:00">
+                2019-10-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">给定 pushed 和 popped 两个序列，只有当它们可能是在最初空栈上进</span><br><span class="line">行的推入 push 和弹出 pop 操作序列的结果时，返回 true；否则，返回 false 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：pushed = [1,2,3,4,5], popped = [4,5,3,2,1]</span><br><span class="line">输出：true</span><br><span class="line">解释：我们可以按以下顺序执行：</span><br><span class="line">push(1), push(2), push(3), push(4), pop() -&gt; 4,</span><br><span class="line">push(5), pop() -&gt; 5, pop() -&gt; 3, pop() -&gt; 2, pop() -&gt; 1</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：pushed = [1,2,3,4,5], popped = [4,3,5,1,2]</span><br><span class="line">输出：false</span><br><span class="line">解释：1 不能在 2 之前弹出。</span><br></pre></td></tr></table></figure>
+
+<h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0 &lt;= pushed.length == popped.length &lt;= 1000</span><br><span class="line">0 &lt;= pushed[i], popped[i] &lt; 1000</span><br><span class="line">pushed 是 popped 的排列。</span><br></pre></td></tr></table></figure>
+
+<br>
+<br>
+
+<h1 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h1><ol>
+<li>题意说白了就是给你两个数组，数组a和数组b。数组a代表的就是要放入顺序放入栈中的一组数，这组数要先按顺序随意入栈，再按照栈的规则随意出栈，出栈之后不能再入栈。按照出栈的顺序把这些数放到一个数组中，看能不能组成一个b数组。</li>
+<li>参照官方题解，也就是用一个栈来模拟，每次按照顺序入栈a数组的内容，入栈之后都要判断当前栈顶元素是否和b的首部元素是否相同，如果一样就出栈一下，然后继续比较栈顶元素和b的首部的下一个元素，如果一样再进行相同的操作，直到两者不同或者栈为空。这个操作是要发生在每次入栈的时候的，因为每次入栈都更新了新的栈顶元素，更新了之后就有可能和b的首部元素相同，不同就算了，如果相同就得栈出栈、b后移，这里用一个指针j来记录栈的首部元素。</li>
+</ol>
+<br>
+<br>
+
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">validateStackSequences</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span>[] b)</span> </span>&#123;</span><br><span class="line">        Stack&lt;Integer&gt; s = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span> len = a.length;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//如果两个数组的长度不同就不用考虑模拟栈了</span></span><br><span class="line">        <span class="keyword">if</span> (a.length != b.length) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//j是标志b的首部元素的指针</span></span><br><span class="line">        <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> temp : a) &#123;</span><br><span class="line">            <span class="comment">//对于每个a元素都入栈一下</span></span><br><span class="line">            s.push(temp);</span><br><span class="line">            <span class="comment">//因为栈顶元素发生了更新，所以要判断栈顶元素和b首部元素是否相同</span></span><br><span class="line">            <span class="comment">//!s.isEmpty()为了防止空指针</span></span><br><span class="line">            <span class="keyword">while</span> (!s.isEmpty() &amp;&amp; j &lt; len &amp;&amp; s.peek().equals(b[j])) &#123;</span><br><span class="line">                <span class="comment">//若相同，更新b的首部元素</span></span><br><span class="line">                j++;</span><br><span class="line">                <span class="comment">//更新栈顶元素</span></span><br><span class="line">                s.pop();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//如果a通过栈可以产生b数组，那么指针一定到b数组的末尾指针的下一个</span></span><br><span class="line">        <span class="keyword">return</span> j==len;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+<br>
+
+<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><ol>
+<li>很有用的一道题</li>
+</ol>
+<br>
+<br>
+
+<h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h1><p><a href="https://leetcode-cn.com/problems/validate-stack-sequences/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/validate-stack-sequences/</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://dddblog.fun/2019/10/16/leetcode-util. 把数组造成二叉树/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1807,177 +1978,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dddblog.fun/2019/10/06/leetcode-110. 平衡二叉树/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="why0609why">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/image/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="油尖旺金毛玲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/10/06/leetcode-110. 平衡二叉树/" itemprop="url">leetcode-110. 平衡二叉树</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-06T20:25:30+08:00">
-                2019-10-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">给定一个二叉树，判断它是否是高度平衡的二叉树。</span><br><span class="line"></span><br><span class="line">本题中，一棵高度平衡二叉树定义为：</span><br><span class="line"></span><br><span class="line">一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过1。</span><br></pre></td></tr></table></figure>
-
-<h2 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">给定二叉树 [3,9,20,null,null,15,7]</span><br><span class="line"></span><br><span class="line">    3</span><br><span class="line">   / \</span><br><span class="line">  9  20</span><br><span class="line">    /  \</span><br><span class="line">   15   7</span><br><span class="line">返回 true 。</span><br></pre></td></tr></table></figure>
-
-<h2 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">给定二叉树 [1,2,2,3,3,null,null,4,4]</span><br><span class="line"></span><br><span class="line">       1</span><br><span class="line">      / \</span><br><span class="line">     2   2</span><br><span class="line">    / \</span><br><span class="line">   3   3</span><br><span class="line">  / \</span><br><span class="line"> 4   4</span><br><span class="line">返回 false 。</span><br></pre></td></tr></table></figure>
-
-<br>
-<br>
-
-<h1 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h1><ol>
-<li>一开始的想法是求根节点的最大深度和最小深度，然后看着两者的绝对值之差是不是小于等于1，从而判断这颗树是不是平衡树，但是这种做法其实是不对的，因为一棵树书否是平衡树决定的因素是这棵树的每个节点（除了叶子节点）的左右子树的深度是否绝对值差小于等于1，只求根节点的最大最小深度是完全不符合要求的。</li>
-<li>正确的做法是递归求每个节点的左右子树的深度，而且这个深度其实就是左右子树的最大深度。在每次递归的时候直接判断左右子树的绝对值差。</li>
-</ol>
-<br>
-<br>
-
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    flag = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isBalanced</span><span class="params">(self, root: TreeNode)</span> -&gt; bool:</span></span><br><span class="line">        <span class="keyword">if</span> root == <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">        self.recurse_isBalanced(root)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> self.flag</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 求出cur节点的最大深度（也就是一棵树直观上的深度）</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">recurse_isBalanced</span><span class="params">(self, cur: TreeNode)</span> -&gt; int:</span></span><br><span class="line">        <span class="comment"># 递归终止条件：当cur是叶子节点的时候，cur的深度自然就是1</span></span><br><span class="line">        <span class="keyword">if</span> cur.left == <span class="literal">None</span> <span class="keyword">and</span> cur.right == <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 先声明好局部变量</span></span><br><span class="line">        lnum = <span class="number">0</span></span><br><span class="line">        rnum = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 当左子树不为空的之后求出左子树的最大深度（直观上的深度）</span></span><br><span class="line">        <span class="keyword">if</span> cur.left != <span class="literal">None</span>:</span><br><span class="line">            lnum = self.recurse_isBalanced(cur.left)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 同上面，求出右子树的最大深度</span></span><br><span class="line">        <span class="keyword">if</span> cur.right != <span class="literal">None</span>:</span><br><span class="line">            rnum = self.recurse_isBalanced(cur.right)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 因为是递归，会遍历到所有的cur以及cur的左右子树的深度</span></span><br><span class="line">        <span class="comment"># 自然也可以在递归里面判断以cur为根的树是不是平衡树</span></span><br><span class="line">        <span class="keyword">if</span> abs(lnum - rnum) &gt; <span class="number">1</span>:</span><br><span class="line">            self.flag = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 因为求的是cur的最大深度，cur的最大深度自然是左右子树的</span></span><br><span class="line">        <span class="comment"># 最大深度的最大值加1</span></span><br><span class="line">        <span class="keyword">return</span> max(lnum, rnum) + <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<br>
-<br>
-
-<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><ol>
-<li>递归可以根据参数的条件分解为很多个子递归，也就是大问题拆解成小问题的做法（根据参数的不同）。</li>
-<li>求一颗二叉树的最大深度最递归的做法就是求左右子树的最大深度的最大值加一，把一个求cur节点的最大深度的问题分解成了求cur节点的左右子树的最大深度。求出左右子树的最大深度的最大值之后自然cur的最大深度就很容易了。</li>
-<li>这里最重要的点就是分解子问题，把根节点的问题分成了左右子树的问题，然后把左右子树的问题统一回去就成了跟问题的解，然后根问题的解也可以用来解决子问题的解</li>
-</ol>
-<br>
-<br>
-
-<h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h1><p><a href="https://leetcode-cn.com/problems/balanced-binary-tree/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/balanced-binary-tree/</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2029,7 +2029,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">292</span>
+                <span class="site-state-item-count">293</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2040,7 +2040,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2051,7 +2051,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-count">63</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -2129,7 +2129,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

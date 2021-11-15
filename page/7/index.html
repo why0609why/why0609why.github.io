@@ -316,6 +316,175 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dddblog.fun/2020/03/17/leetcode-1160. 拼写单词/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="why0609why">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/image/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="油尖旺金毛玲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/17/leetcode-1160. 拼写单词/" itemprop="url">leetcode-1160. 拼写单词</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-17T23:11:30+08:00">
+                2020-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">给你一份『词汇表』（字符串数组） words 和一张『字母表』（字符串） chars。</span><br><span class="line"></span><br><span class="line">假如你可以用 chars 中的『字母』（字符）拼写出 words 中的某个『单词』</span><br><span class="line">（字符串），那么我们就认为你掌握了这个单词。</span><br><span class="line"></span><br><span class="line">注意：每次拼写时，chars 中的每个字母都只能用一次。</span><br><span class="line"></span><br><span class="line">返回词汇表 words 中你掌握的所有单词的 长度之和。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：words = [&quot;cat&quot;,&quot;bt&quot;,&quot;hat&quot;,&quot;tree&quot;], chars = &quot;atach&quot;</span><br><span class="line">输出：6</span><br><span class="line">解释： </span><br><span class="line">可以形成字符串 &quot;cat&quot; 和 &quot;hat&quot;，所以答案是 3 + 3 = 6。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：words = [&quot;hello&quot;,&quot;world&quot;,&quot;leetcode&quot;], chars = &quot;welldonehoneyr&quot;</span><br><span class="line">输出：10</span><br><span class="line">解释：</span><br><span class="line">可以形成字符串 &quot;hello&quot; 和 &quot;world&quot;，所以答案是 5 + 5 = 10。</span><br></pre></td></tr></table></figure>
+
+<br>
+<br>
+
+<h1 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h1><ol>
+<li>用哈希表记录就好，先用哈希表记录一下单词表里的所有单词的个数，然后对于每个单词都产生一个哈希表，然后比较新的哈希表的所有值是否全部小于单词表对应的哈希表。</li>
+</ol>
+<br>
+<br>
+
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">countCharacters</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; &amp;words, <span class="built_in">string</span> chars)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//无序的哈希表</span></span><br><span class="line">        <span class="built_in">unordered_map</span>&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt; map1;</span><br><span class="line">        <span class="comment">//map可以直接这样添加键值对</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">char</span> c:chars) &#123;</span><br><span class="line">            map1[c]++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">string</span> word:words) &#123;</span><br><span class="line">            <span class="comment">//对于每个单词都产生一个哈希表</span></span><br><span class="line">            <span class="built_in">unordered_map</span>&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt; map2;</span><br><span class="line">            <span class="comment">//和上面一样的赋值方法</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">char</span> c: word) &#123;</span><br><span class="line">                map2[c]++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">bool</span> flag = <span class="literal">true</span>;</span><br><span class="line">            <span class="comment">//单词里的每个字母都要在两个map里面比一下</span></span><br><span class="line">            <span class="comment">//看字母表里是否存在足够多的字母</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">char</span> c:word) &#123;</span><br><span class="line">                <span class="keyword">if</span> (map1[c] &lt; map2[c]) &#123;</span><br><span class="line">                    flag = <span class="literal">false</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">                res += word.size();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<br>
+<br>
+
+<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><ol>
+<li>unordered_map是无序的map，默认的map是有序的。</li>
+<li>c++中，在声明map(或者unordered_map)之后，可以直接像python里面一样插入键值对，比如map&lt;char,int&gt;长这个样子，那么插入就可以map[‘a’]=65。和python一样。</li>
+</ol>
+<br>
+<br>
+
+<h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h1><p><a href="https://leetcode-cn.com/problems/find-words-that-can-be-formed-by-characters/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/find-words-that-can-be-formed-by-characters/</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://dddblog.fun/2020/03/16/leetcode-面试题22. 链表中倒数第k个节点/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1804,174 +1973,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dddblog.fun/2020/02/15/leetcode-682. 棒球比赛/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="why0609why">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/image/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="油尖旺金毛玲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/15/leetcode-682. 棒球比赛/" itemprop="url">leetcode-717. 1比特与2比特字符</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-15T19:00:30+08:00">
-                2020-02-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">你现在是棒球比赛记录员。</span><br><span class="line">给定一个字符串列表，每个字符串可以是以下四种类型之一：</span><br><span class="line">1.整数（一轮的得分）：直接表示您在本轮中获得的积分数。</span><br><span class="line">2. &quot;+&quot;（一轮的得分）：表示本轮获得的得分是前两轮有效 回合得分的总和。</span><br><span class="line">3. &quot;D&quot;（一轮的得分）：表示本轮获得的得分是前一轮有效 回合得分的两倍。</span><br><span class="line">4. &quot;C&quot;（一个操作，这不是一个回合的分数）：表示您获得的最后一个有效 回合的分数是无效的，应该被移除。</span><br><span class="line"></span><br><span class="line">每一轮的操作都是永久性的，可能会对前一轮和后一轮产生影响。</span><br><span class="line">你需要返回你在所有回合中得分的总和。</span><br></pre></td></tr></table></figure>
-
-<h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">输入: [&quot;5&quot;,&quot;2&quot;,&quot;C&quot;,&quot;D&quot;,&quot;+&quot;]</span><br><span class="line">输出: 30</span><br><span class="line">解释: </span><br><span class="line">第1轮：你可以得到5分。总和是：5。</span><br><span class="line">第2轮：你可以得到2分。总和是：7。</span><br><span class="line">操作1：第2轮的数据无效。总和是：5。</span><br><span class="line">第3轮：你可以得到10分（第2轮的数据已被删除）。总数是：15。</span><br><span class="line">第4轮：你可以得到5 + 10 = 15分。总数是：30。</span><br></pre></td></tr></table></figure>
-
-<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">输入: [&quot;5&quot;,&quot;-2&quot;,&quot;4&quot;,&quot;C&quot;,&quot;D&quot;,&quot;9&quot;,&quot;+&quot;,&quot;+&quot;]</span><br><span class="line">输出: 27</span><br><span class="line">解释: </span><br><span class="line">第1轮：你可以得到5分。总和是：5。</span><br><span class="line">第2轮：你可以得到-2分。总数是：3。</span><br><span class="line">第3轮：你可以得到4分。总和是：7。</span><br><span class="line">操作1：第3轮的数据无效。总数是：3。</span><br><span class="line">第4轮：你可以得到-4分（第三轮的数据已被删除）。总和是：-1。</span><br><span class="line">第5轮：你可以得到9分。总数是：8。</span><br><span class="line">第6轮：你可以得到-4 + 9 = 5分。总数是13。</span><br><span class="line">第7轮：你可以得到9 + 5 = 14分。总数是27。</span><br></pre></td></tr></table></figure>
-
-<br>
-<br>
-
-<h1 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h1><ol>
-<li>遇到字符就处理以前的数字，而且还是倒序，而且每次处理的都是最后面的数字，明显就是一个栈。遇到非数字的字母对栈顶处理就好了，然后再把处理好的数放到栈顶就行了。</li>
-</ol>
-<br>
-<br>
-
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Stack;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">calPoints</span><span class="params">(String[] s)</span> </span>&#123;</span><br><span class="line">        Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length; i++) &#123;</span><br><span class="line">            <span class="comment">//D是对上一轮的数字乘2，上一轮的数字也就是栈顶</span></span><br><span class="line">            <span class="keyword">if</span> (s[i].equals(<span class="string">"D"</span>)) &#123;</span><br><span class="line">                res += stack.peek() * <span class="number">2</span>;</span><br><span class="line">                stack.push(stack.peek() * <span class="number">2</span>);</span><br><span class="line">            <span class="comment">//c是减去上一轮数字</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (s[i].equals(<span class="string">"C"</span>)) &#123;</span><br><span class="line">                res -= stack.peek();</span><br><span class="line">                stack.pop();</span><br><span class="line">            <span class="comment">//加号同理</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (s[i].equals(<span class="string">"+"</span>)) &#123;</span><br><span class="line">                <span class="keyword">int</span> t1 = stack.pop();</span><br><span class="line">                <span class="keyword">int</span> t2 = stack.peek();</span><br><span class="line">                stack.push(t1);</span><br><span class="line">                stack.push(t1 + t2);</span><br><span class="line">                res = res + t1 + t2;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">//数字则正常放数</span></span><br><span class="line">                stack.push(Integer.valueOf(s[i]));</span><br><span class="line">                res += Integer.valueOf(s[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String[] s = &#123;<span class="string">"5"</span>, <span class="string">"2"</span>, <span class="string">"C"</span>, <span class="string">"D"</span>, <span class="string">"+"</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="keyword">new</span> Solution().calPoints(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<br>
-<br>
-
-<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><ol>
-<li>遇到对最新的状态进行处理的时候可以用栈处理</li>
-</ol>
-<br>
-<br>
-
-<h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h1><p><a href="https://leetcode-cn.com/problems/baseball-game/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/baseball-game/</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2023,7 +2024,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">292</span>
+                <span class="site-state-item-count">293</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2034,7 +2035,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2045,7 +2046,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-count">63</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -2123,7 +2124,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
